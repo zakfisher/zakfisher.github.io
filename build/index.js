@@ -1,5 +1,7 @@
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1337,24 +1339,723 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js", "/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process");
   }, { "1YiZ5S": 4, "buffer": 1 }], 5: [function (require, module, exports) {
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
-      var TwitchAPI = require('./twitchAPI');
+      var TwitchService = require('../services/twitch');
 
-      var App = function App() {
-        _classCallCheck(this, App);
+      var ResultsComponent = function () {
+        function ResultsComponent(rootSelector) {
+          _classCallCheck(this, ResultsComponent);
 
-        console.log('twitch', TwitchAPI);
-      };
+          this.el = document.querySelector(rootSelector);
+          this.pagination = this.el.querySelector('.pagination');
+          this.list = this.el.querySelector('ul.result-list');
+
+          // Hook into Twitch Service for data updates
+          TwitchService.listen(this.update.bind(this));
+        }
+
+        _createClass(ResultsComponent, [{
+          key: "update",
+          value: function update(event) {
+            switch (event.action) {
+              case 'get data':
+                this.renderList(event.data.streams || []);
+                break;
+            }
+          }
+        }, {
+          key: "render",
+          value: function render() {
+            this.renderPagination();
+            this.renderList();
+          }
+        }, {
+          key: "renderPagination",
+          value: function renderPagination() {
+            var html = '';
+            this.pagination.innerHTML = html;
+          }
+        }, {
+          key: "renderList",
+          value: function renderList() {
+            var items = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+            console.log('render list', items);
+            var html = '<li>No results found.</li>';
+            if (items.length > 0) {
+              html = '';
+              items.forEach(function (item) {
+                html += "\n          <li>\n            <img src=\"\" />\n            <h1>Stream display name</h1>\n            <h2>Game name - 1234 viewers</h2>\n            <p>description...</p>\n          </li>\n        ";
+              });
+            }
+            this.list.innerHTML = html;
+          }
+        }]);
+
+        return ResultsComponent;
+      }();
+
+      module.exports = ResultsComponent;
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/components/results.js", "/components");
+  }, { "../services/twitch": 9, "1YiZ5S": 4, "buffer": 1 }], 6: [function (require, module, exports) {
+    (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
+      var TwitchService = require('../services/twitch');
+
+      var SearchComponent = function () {
+        function SearchComponent(rootSelector) {
+          _classCallCheck(this, SearchComponent);
+
+          this.el = document.querySelector(rootSelector);
+
+          // Hook into Twitch Service for data updates
+          TwitchService.listen(this.update.bind(this));
+        }
+
+        _createClass(SearchComponent, [{
+          key: "update",
+          value: function update(event) {
+            switch (event.action) {}
+          }
+        }, {
+          key: "render",
+          value: function render() {
+            this.el.innerHTML = "\n      <input type=\"text\" name=\"query\" placeholder=\"Search query...\" />\n      <input type=\"submit\" name=\"submit\" value=\"Search\" />\n    ";
+          }
+        }]);
+
+        return SearchComponent;
+      }();
+
+      module.exports = SearchComponent;
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/components/search.js", "/components");
+  }, { "../services/twitch": 9, "1YiZ5S": 4, "buffer": 1 }], 7: [function (require, module, exports) {
+    (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
+      var ResultsComponent = require('./components/results');
+      var SearchComponent = require('./components/search');
+      var TwitchService = require('./services/twitch');
+
+      var App = function () {
+        function App() {
+          _classCallCheck(this, App);
+
+          this.results = new ResultsComponent('main .results');
+          this.search = new SearchComponent('main .search');
+          this.render();
+
+          // Load initial data
+          TwitchService.getData();
+        }
+
+        _createClass(App, [{
+          key: "render",
+          value: function render() {
+            this.results.render();
+            this.search.render();
+          }
+        }]);
+
+        return App;
+      }();
 
       module.exports = window.App = new App();
-    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_5a93d50e.js", "/");
-  }, { "./twitchAPI": 6, "1YiZ5S": 4, "buffer": 1 }], 6: [function (require, module, exports) {
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_815a455e.js", "/");
+  }, { "./components/results": 5, "./components/search": 6, "./services/twitch": 9, "1YiZ5S": 4, "buffer": 1 }], 8: [function (require, module, exports) {
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
-      var TwitchAPI = function TwitchAPI() {
-        _classCallCheck(this, TwitchAPI);
-
-        console.log('im the twitch api');
+      module.exports = {
+        "_total": 79,
+        "_links": {
+          "self": "https://api.twitch.tv/kraken/search/streams?limit=10&offset=0&q=starcraft",
+          "next": "https://api.twitch.tv/kraken/search/streams?limit=10&offset=10&q=starcraft"
+        },
+        "streams": [{
+          "_id": 22793040720,
+          "game": "StarCraft: Brood War",
+          "viewers": 44,
+          "video_height": 720,
+          "average_fps": 60.8571428571,
+          "delay": 0,
+          "created_at": "2016-08-12T16:55:25Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/skryoo1004"
+          },
+          "channel": {
+            "mature": false,
+            "status": "StarCraft Scan 2v2 cash games",
+            "broadcaster_language": "ko",
+            "display_name": "skryoo1004",
+            "game": "StarCraft: Brood War",
+            "language": "en",
+            "_id": 15580913,
+            "name": "skryoo1004",
+            "created_at": "2010-09-13T23:24:38Z",
+            "updated_at": "2016-08-12T19:34:29Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/skryoo1004-profile_image-91e1cf9d7d789391-300x300.jpeg",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/skryoo1004-channel_offline_image-0dbae918147949be-1920x1080.jpeg",
+            "background": null,
+            "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/skryoo1004-profile_banner-83a06d611944c2d0-480.jpeg",
+            "profile_banner_background_color": null,
+            "partner": true,
+            "url": "https://www.twitch.tv/skryoo1004",
+            "views": 2344380,
+            "followers": 3300,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/skryoo1004",
+              "follows": "https://api.twitch.tv/kraken/channels/skryoo1004/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/skryoo1004/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/skryoo1004/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/skryoo1004",
+              "features": "https://api.twitch.tv/kraken/channels/skryoo1004/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/skryoo1004/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/skryoo1004/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/skryoo1004/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/skryoo1004/videos"
+            }
+          }
+        }, {
+          "_id": 22792733744,
+          "game": "StarCraft II",
+          "viewers": 24,
+          "video_height": 1080,
+          "average_fps": 30.0144300144,
+          "delay": 0,
+          "created_at": "2016-08-12T16:33:40Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/leipzigesports"
+          },
+          "channel": {
+            "mature": false,
+            "status": "2. Leipzig eSports StarCraft II Trainingsturnier",
+            "broadcaster_language": "de",
+            "display_name": "LeipzigeSports",
+            "game": "StarCraft II",
+            "language": "de",
+            "_id": 41069413,
+            "name": "leipzigesports",
+            "created_at": "2013-03-07T11:55:36Z",
+            "updated_at": "2016-08-12T19:34:25Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/leipzigesports-profile_image-73626ab190377bfd-300x300.png",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/leipzigesports-channel_offline_image-9cdf667018b03a52-1920x1080.png",
+            "background": null,
+            "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/leipzigesports-profile_banner-0d905e45beaa31b2-480.png",
+            "profile_banner_background_color": "#000000",
+            "partner": false,
+            "url": "https://www.twitch.tv/leipzigesports",
+            "views": 29642,
+            "followers": 490,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/leipzigesports",
+              "follows": "https://api.twitch.tv/kraken/channels/leipzigesports/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/leipzigesports/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/leipzigesports/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/leipzigesports",
+              "features": "https://api.twitch.tv/kraken/channels/leipzigesports/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/leipzigesports/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/leipzigesports/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/leipzigesports/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/leipzigesports/videos"
+            }
+          }
+        }, {
+          "_id": 22796038368,
+          "game": "StarCraft II",
+          "viewers": 16,
+          "video_height": 1080,
+          "average_fps": 30,
+          "delay": 0,
+          "created_at": "2016-08-12T19:49:20Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/lscander"
+          },
+          "channel": {
+            "mature": false,
+            "status": "Чистокровный ГМЛ берет 6К ММР",
+            "broadcaster_language": "ru",
+            "display_name": "lscander",
+            "game": "StarCraft II",
+            "language": "ru",
+            "_id": 65161942,
+            "name": "lscander",
+            "created_at": "2014-06-27T08:02:51Z",
+            "updated_at": "2016-08-12T19:34:34Z",
+            "delay": null,
+            "logo": null,
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/lscander-channel_offline_image-0eb219452928c841-1920x1080.png",
+            "background": null,
+            "profile_banner": null,
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/lscander",
+            "views": 68511,
+            "followers": 3656,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/lscander",
+              "follows": "https://api.twitch.tv/kraken/channels/lscander/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/lscander/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/lscander/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/lscander",
+              "features": "https://api.twitch.tv/kraken/channels/lscander/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/lscander/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/lscander/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/lscander/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/lscander/videos"
+            }
+          }
+        }, {
+          "_id": 22794314624,
+          "game": "StarCraft II",
+          "viewers": 8,
+          "video_height": 720,
+          "average_fps": 30.6451612903,
+          "delay": 0,
+          "created_at": "2016-08-12T18:07:44Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/misterlard"
+          },
+          "channel": {
+            "mature": false,
+            "status": "[57] The History of Blizzard: StarCraft II: Legacy of the Void",
+            "broadcaster_language": "en",
+            "display_name": "MisterLard",
+            "game": "StarCraft II",
+            "language": "en",
+            "_id": 25574151,
+            "name": "misterlard",
+            "created_at": "2011-10-19T22:20:32Z",
+            "updated_at": "2016-08-12T19:04:33Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/misterlard-profile_image-d8f3a478c396c216-300x300.png",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/misterlard-channel_offline_image-5af0be7c52972d1a-1920x1080.png",
+            "background": null,
+            "profile_banner": null,
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/misterlard",
+            "views": 2936,
+            "followers": 60,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/misterlard",
+              "follows": "https://api.twitch.tv/kraken/channels/misterlard/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/misterlard/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/misterlard/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/misterlard",
+              "features": "https://api.twitch.tv/kraken/channels/misterlard/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/misterlard/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/misterlard/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/misterlard/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/misterlard/videos"
+            }
+          }
+        }, {
+          "_id": 22795950640,
+          "game": "StarCraft: Brood War",
+          "viewers": 2,
+          "video_height": 720,
+          "average_fps": 25,
+          "delay": 0,
+          "created_at": "2016-08-12T19:43:56Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/certicky"
+          },
+          "channel": {
+            "mature": false,
+            "status": "[HD] SSCAIT: StarCraft AI Tournament",
+            "broadcaster_language": "en",
+            "display_name": "certicky",
+            "game": "StarCraft: Brood War",
+            "language": "en",
+            "_id": 30861655,
+            "name": "certicky",
+            "created_at": "2012-05-27T21:55:11Z",
+            "updated_at": "2016-08-12T19:32:46Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/certicky-profile_image-27d84b71c3611d9b-300x300.png",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/certicky-channel_offline_image-f9714af244be6564-1920x1080.png",
+            "background": null,
+            "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/certicky-profile_banner-1232071cedcb4c8c-480.jpeg",
+            "profile_banner_background_color": "#000000",
+            "partner": false,
+            "url": "https://www.twitch.tv/certicky",
+            "views": 152210,
+            "followers": 581,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/certicky",
+              "follows": "https://api.twitch.tv/kraken/channels/certicky/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/certicky/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/certicky/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/certicky",
+              "features": "https://api.twitch.tv/kraken/channels/certicky/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/certicky/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/certicky/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/certicky/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/certicky/videos"
+            }
+          }
+        }, {
+          "_id": 22796067904,
+          "game": "StarCraft II",
+          "viewers": 1,
+          "video_height": 480,
+          "average_fps": 25.4258835495,
+          "delay": 0,
+          "created_at": "2016-08-12T19:51:12Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/sdsg_stratos"
+          },
+          "channel": {
+            "mature": false,
+            "status": "[FR] Road to Master ! Zerg-Diamant [FR]",
+            "broadcaster_language": "fr",
+            "display_name": "SDSG_StratoS",
+            "game": "StarCraft II",
+            "language": "fr",
+            "_id": 85936997,
+            "name": "sdsg_stratos",
+            "created_at": "2015-03-23T19:46:40Z",
+            "updated_at": "2016-08-12T19:00:14Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/sdsg_stratos-profile_image-0289965b03d324eb-300x300.jpeg",
+            "banner": null,
+            "video_banner": null,
+            "background": null,
+            "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/sdsg_stratos-profile_banner-385da6db9ee94304-480.jpeg",
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/sdsg_stratos",
+            "views": 1273,
+            "followers": 55,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/sdsg_stratos",
+              "follows": "https://api.twitch.tv/kraken/channels/sdsg_stratos/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/sdsg_stratos/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/sdsg_stratos/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/sdsg_stratos",
+              "features": "https://api.twitch.tv/kraken/channels/sdsg_stratos/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/sdsg_stratos/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/sdsg_stratos/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/sdsg_stratos/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/sdsg_stratos/videos"
+            }
+          }
+        }, {
+          "_id": 22794344608,
+          "game": "StarCraft II",
+          "viewers": 1,
+          "video_height": 720,
+          "average_fps": 60,
+          "delay": 0,
+          "created_at": "2016-08-12T18:09:32Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/355th300"
+          },
+          "channel": {
+            "mature": false,
+            "status": "Professinal Russian Plays Starcraft stream ;)",
+            "broadcaster_language": "en",
+            "display_name": "355th300",
+            "game": "StarCraft II",
+            "language": "en",
+            "_id": 77052882,
+            "name": "355th300",
+            "created_at": "2014-12-12T16:00:58Z",
+            "updated_at": "2016-08-12T19:00:47Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/355th300-profile_image-27a906f0ba0e545a-300x300.jpeg",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/355th300-channel_offline_image-b8f047c7d24c1d8a-1920x1080.jpeg",
+            "background": null,
+            "profile_banner": null,
+            "profile_banner_background_color": "#00139f",
+            "partner": false,
+            "url": "https://www.twitch.tv/355th300",
+            "views": 342,
+            "followers": 21,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/355th300",
+              "follows": "https://api.twitch.tv/kraken/channels/355th300/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/355th300/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/355th300/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/355th300",
+              "features": "https://api.twitch.tv/kraken/channels/355th300/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/355th300/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/355th300/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/355th300/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/355th300/videos"
+            }
+          }
+        }, {
+          "_id": 22796102640,
+          "game": "StarCraft II",
+          "viewers": 0,
+          "video_height": 720,
+          "average_fps": 24,
+          "delay": 0,
+          "created_at": "2016-08-12T19:53:18Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/wolfslairsc2"
+          },
+          "channel": {
+            "mature": false,
+            "status": "Wolf's Lair's Thor",
+            "broadcaster_language": "tr",
+            "display_name": "Wolfslairsc2",
+            "game": "StarCraft II",
+            "language": "tr",
+            "_id": 117175160,
+            "name": "wolfslairsc2",
+            "created_at": "2016-02-27T19:56:01Z",
+            "updated_at": "2016-08-12T18:31:33Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/wolfslairsc2-profile_image-24a719b3507d7472-300x300.jpeg",
+            "banner": null,
+            "video_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/wolfslairsc2-channel_offline_image-565eba2c6484febb-1920x1080.jpeg",
+            "background": null,
+            "profile_banner": "https://static-cdn.jtvnw.net/jtv_user_pictures/wolfslairsc2-profile_banner-02bc09237522e195-480.png",
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/wolfslairsc2",
+            "views": 4300,
+            "followers": 109,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/wolfslairsc2",
+              "follows": "https://api.twitch.tv/kraken/channels/wolfslairsc2/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/wolfslairsc2/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/wolfslairsc2/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/wolfslairsc2",
+              "features": "https://api.twitch.tv/kraken/channels/wolfslairsc2/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/wolfslairsc2/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/wolfslairsc2/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/wolfslairsc2/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/wolfslairsc2/videos"
+            }
+          }
+        }, {
+          "_id": 22795333232,
+          "game": "Starcraft (lotv) // Skill // CSGO",
+          "viewers": 0,
+          "video_height": 1080,
+          "average_fps": 30.0150075038,
+          "delay": 0,
+          "created_at": "2016-08-12T19:08:00Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/mrmanslol"
+          },
+          "channel": {
+            "mature": null,
+            "status": "Starcraft (lotv) // Skill // CSGO",
+            "broadcaster_language": "de",
+            "display_name": "MrMansLoL",
+            "game": "Starcraft (lotv) // Skill // CSGO",
+            "language": "de",
+            "_id": 77468375,
+            "name": "mrmanslol",
+            "created_at": "2014-12-18T21:45:49Z",
+            "updated_at": "2016-08-12T19:38:17Z",
+            "delay": null,
+            "logo": null,
+            "banner": null,
+            "video_banner": null,
+            "background": null,
+            "profile_banner": null,
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/mrmanslol",
+            "views": 47,
+            "followers": 1,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/mrmanslol",
+              "follows": "https://api.twitch.tv/kraken/channels/mrmanslol/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/mrmanslol/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/mrmanslol/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/mrmanslol",
+              "features": "https://api.twitch.tv/kraken/channels/mrmanslol/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/mrmanslol/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/mrmanslol/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/mrmanslol/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/mrmanslol/videos"
+            }
+          }
+        }, {
+          "_id": 22795221456,
+          "game": "StarCraft II",
+          "viewers": 0,
+          "video_height": 1080,
+          "average_fps": 30.8823529412,
+          "delay": 0,
+          "created_at": "2016-08-12T19:01:54Z",
+          "is_playlist": false,
+          "preview": {
+            "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-80x45.jpg",
+            "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-320x180.jpg",
+            "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-640x360.jpg",
+            "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-{width}x{height}.jpg"
+          },
+          "_links": {
+            "self": "https://api.twitch.tv/kraken/streams/adimax1993"
+          },
+          "channel": {
+            "mature": false,
+            "status": "Starcraft 2 Archont GM EU",
+            "broadcaster_language": "pl",
+            "display_name": "Adimax1993",
+            "game": "StarCraft II",
+            "language": "pl",
+            "_id": 32648720,
+            "name": "adimax1993",
+            "created_at": "2012-08-02T22:19:20Z",
+            "updated_at": "2016-08-12T19:31:41Z",
+            "delay": null,
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/adimax1993-profile_image-d1bb683b433312dd-300x300.png",
+            "banner": null,
+            "video_banner": null,
+            "background": null,
+            "profile_banner": null,
+            "profile_banner_background_color": null,
+            "partner": false,
+            "url": "https://www.twitch.tv/adimax1993",
+            "views": 712,
+            "followers": 16,
+            "_links": {
+              "self": "https://api.twitch.tv/kraken/channels/adimax1993",
+              "follows": "https://api.twitch.tv/kraken/channels/adimax1993/follows",
+              "commercial": "https://api.twitch.tv/kraken/channels/adimax1993/commercial",
+              "stream_key": "https://api.twitch.tv/kraken/channels/adimax1993/stream_key",
+              "chat": "https://api.twitch.tv/kraken/chat/adimax1993",
+              "features": "https://api.twitch.tv/kraken/channels/adimax1993/features",
+              "subscriptions": "https://api.twitch.tv/kraken/channels/adimax1993/subscriptions",
+              "editors": "https://api.twitch.tv/kraken/channels/adimax1993/editors",
+              "teams": "https://api.twitch.tv/kraken/channels/adimax1993/teams",
+              "videos": "https://api.twitch.tv/kraken/channels/adimax1993/videos"
+            }
+          }
+        }]
       };
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/services/mockData.js", "/services");
+  }, { "1YiZ5S": 4, "buffer": 1 }], 9: [function (require, module, exports) {
+    (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
+      var data = require('./mockData');
 
-      module.exports = new TwitchAPI();
-    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/twitchAPI.js", "/");
-  }, { "1YiZ5S": 4, "buffer": 1 }] }, {}, [5]);
+      var TwitchService = function () {
+        function TwitchService() {
+          _classCallCheck(this, TwitchService);
+
+          this.data = {};
+          this.listeners = [];
+          this.actions = ['getData'];
+          this._initActionCallbacks();
+        }
+
+        _createClass(TwitchService, [{
+          key: "_initActionCallbacks",
+          value: function _initActionCallbacks() {
+            var _this = this;
+
+            // Hook each action to an on<ActionName> callback
+            // i.e. `getData` will fire `onGetData`
+            this.actions.forEach(function (action) {
+              _this[action] = function () {
+                var onAction = "on" + action[0].toUpperCase() + action.substr(1);
+                if (_this[onAction]) {
+                  _this[onAction]();
+                }
+              };
+            });
+          }
+        }, {
+          key: "onGetData",
+          value: function onGetData() {
+            this.trigger({
+              action: 'get data',
+              data: data
+            });
+          }
+        }, {
+          key: "listen",
+          value: function listen(listener) {
+            if (typeof listener === 'function') {
+              this.listeners.push(listener);
+            }
+          }
+        }, {
+          key: "trigger",
+          value: function trigger(data) {
+            this.listeners.forEach(function (listener) {
+              listener(data);
+            });
+          }
+        }]);
+
+        return TwitchService;
+      }();
+
+      module.exports = new TwitchService();
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/services/twitch.js", "/services");
+  }, { "./mockData": 8, "1YiZ5S": 4, "buffer": 1 }] }, {}, [7]);

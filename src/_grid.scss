@@ -1,0 +1,87 @@
+// $debug: false;
+$debug: true;
+
+// Columns
+$colCount: 12;
+$colWidth: 100% / $colCount;
+
+// Breakpoints
+$breakpoints: (
+  (col,       0px)
+  (mob,     320px)
+  (mob-m,   375px)
+  (mob-l,   425px)
+  (tab,     768px)
+  (lap,    1024px)
+  (desk,   1440px)
+  (hi-res, 2560px)
+);
+
+@mixin breakpoint($prefix) {
+  @each $bp in $breakpoints {
+    @if $prefix == nth($bp, 1) {
+      @media all and (min-width: nth($bp, 2)) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin columns($bp) {
+  $i: 1;
+  $prefix: nth($bp, 1);
+  @while $i <= $colCount {
+    &.#{$prefix}-#{$i} {
+      width: $colWidth * $i;
+    }
+    $i: $i + 1;
+  }
+  &.#{$prefix}-20 {
+    width: 20%;
+  }
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.row {
+  display: flex;
+  flex-flow: wrap;
+  height: 100%;
+  width: 100%;
+  & > [class*="col-"] {
+    height: 100%;
+    &.border { border: 1px solid #aaa; }
+    @each $bp in $breakpoints {
+      @include breakpoint(nth($bp, 1)) {
+        @include columns($bp);
+      }
+    }
+  }
+}
+
+@if $debug == true {
+  html {
+    &:before {
+      border: 1px solid #333;
+      border-radius: 4px;
+      position: fixed;
+      z-index: 5000;
+      color: darkturquoise;
+      background: black;
+      font-size: 12px;
+      bottom: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      @each $bp in $breakpoints {
+        $prefix: nth($bp, 1);
+        $minWidth: nth($bp, 2);
+        @include breakpoint($prefix) {
+          content: '#{$prefix} (#{$minWidth})';
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,265 @@
+.wrap {
+  margin: 0 auto;
+  max-width: 90%; }
+
+.row {
+  display: flex;
+  flex-flow: wrap;
+  height: 100%;
+  width: 100%; }
+  .row > [class*="col-"] {
+    height: 100%; }
+    .row > [class*="col-"].border {
+      border: 1px solid #aaa; }
+    @media all and (min-width: 0px) {
+      .row > [class*="col-"].col-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].col-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].col-3 {
+        width: 25%; }
+      .row > [class*="col-"].col-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].col-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].col-6 {
+        width: 50%; }
+      .row > [class*="col-"].col-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].col-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].col-9 {
+        width: 75%; }
+      .row > [class*="col-"].col-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].col-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].col-12 {
+        width: 100%; }
+      .row > [class*="col-"].col-20 {
+        width: 20%; } }
+    @media all and (min-width: 320px) {
+      .row > [class*="col-"].mob-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].mob-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].mob-3 {
+        width: 25%; }
+      .row > [class*="col-"].mob-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].mob-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].mob-6 {
+        width: 50%; }
+      .row > [class*="col-"].mob-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].mob-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].mob-9 {
+        width: 75%; }
+      .row > [class*="col-"].mob-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].mob-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].mob-12 {
+        width: 100%; }
+      .row > [class*="col-"].mob-20 {
+        width: 20%; } }
+    @media all and (min-width: 375px) {
+      .row > [class*="col-"].mob-m-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].mob-m-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].mob-m-3 {
+        width: 25%; }
+      .row > [class*="col-"].mob-m-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].mob-m-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].mob-m-6 {
+        width: 50%; }
+      .row > [class*="col-"].mob-m-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].mob-m-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].mob-m-9 {
+        width: 75%; }
+      .row > [class*="col-"].mob-m-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].mob-m-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].mob-m-12 {
+        width: 100%; }
+      .row > [class*="col-"].mob-m-20 {
+        width: 20%; } }
+    @media all and (min-width: 425px) {
+      .row > [class*="col-"].mob-l-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].mob-l-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].mob-l-3 {
+        width: 25%; }
+      .row > [class*="col-"].mob-l-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].mob-l-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].mob-l-6 {
+        width: 50%; }
+      .row > [class*="col-"].mob-l-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].mob-l-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].mob-l-9 {
+        width: 75%; }
+      .row > [class*="col-"].mob-l-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].mob-l-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].mob-l-12 {
+        width: 100%; }
+      .row > [class*="col-"].mob-l-20 {
+        width: 20%; } }
+    @media all and (min-width: 768px) {
+      .row > [class*="col-"].tab-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].tab-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].tab-3 {
+        width: 25%; }
+      .row > [class*="col-"].tab-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].tab-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].tab-6 {
+        width: 50%; }
+      .row > [class*="col-"].tab-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].tab-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].tab-9 {
+        width: 75%; }
+      .row > [class*="col-"].tab-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].tab-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].tab-12 {
+        width: 100%; }
+      .row > [class*="col-"].tab-20 {
+        width: 20%; } }
+    @media all and (min-width: 1024px) {
+      .row > [class*="col-"].lap-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].lap-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].lap-3 {
+        width: 25%; }
+      .row > [class*="col-"].lap-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].lap-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].lap-6 {
+        width: 50%; }
+      .row > [class*="col-"].lap-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].lap-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].lap-9 {
+        width: 75%; }
+      .row > [class*="col-"].lap-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].lap-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].lap-12 {
+        width: 100%; }
+      .row > [class*="col-"].lap-20 {
+        width: 20%; } }
+    @media all and (min-width: 1440px) {
+      .row > [class*="col-"].desk-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].desk-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].desk-3 {
+        width: 25%; }
+      .row > [class*="col-"].desk-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].desk-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].desk-6 {
+        width: 50%; }
+      .row > [class*="col-"].desk-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].desk-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].desk-9 {
+        width: 75%; }
+      .row > [class*="col-"].desk-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].desk-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].desk-12 {
+        width: 100%; }
+      .row > [class*="col-"].desk-20 {
+        width: 20%; } }
+    @media all and (min-width: 2560px) {
+      .row > [class*="col-"].hi-res-1 {
+        width: 8.33333%; }
+      .row > [class*="col-"].hi-res-2 {
+        width: 16.66667%; }
+      .row > [class*="col-"].hi-res-3 {
+        width: 25%; }
+      .row > [class*="col-"].hi-res-4 {
+        width: 33.33333%; }
+      .row > [class*="col-"].hi-res-5 {
+        width: 41.66667%; }
+      .row > [class*="col-"].hi-res-6 {
+        width: 50%; }
+      .row > [class*="col-"].hi-res-7 {
+        width: 58.33333%; }
+      .row > [class*="col-"].hi-res-8 {
+        width: 66.66667%; }
+      .row > [class*="col-"].hi-res-9 {
+        width: 75%; }
+      .row > [class*="col-"].hi-res-10 {
+        width: 83.33333%; }
+      .row > [class*="col-"].hi-res-11 {
+        width: 91.66667%; }
+      .row > [class*="col-"].hi-res-12 {
+        width: 100%; }
+      .row > [class*="col-"].hi-res-20 {
+        width: 20%; } }
+
+html:before {
+  border: 1px solid #333;
+  border-radius: 4px;
+  position: fixed;
+  z-index: 5000;
+  color: darkturquoise;
+  background: black;
+  font-size: 12px;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px; }
+  @media all and (min-width: 0px) {
+    html:before {
+      content: "col (0px)"; } }
+  @media all and (min-width: 320px) {
+    html:before {
+      content: "mob (320px)"; } }
+  @media all and (min-width: 375px) {
+    html:before {
+      content: "mob-m (375px)"; } }
+  @media all and (min-width: 425px) {
+    html:before {
+      content: "mob-l (425px)"; } }
+  @media all and (min-width: 768px) {
+    html:before {
+      content: "tab (768px)"; } }
+  @media all and (min-width: 1024px) {
+    html:before {
+      content: "lap (1024px)"; } }
+  @media all and (min-width: 1440px) {
+    html:before {
+      content: "desk (1440px)"; } }
+  @media all and (min-width: 2560px) {
+    html:before {
+      content: "hi-res (2560px)"; } }
