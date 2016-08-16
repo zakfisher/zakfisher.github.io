@@ -30,7 +30,7 @@ class TwitchService extends Service {
 
     // Fetch our data via JSONP from Twitch API
     this.trigger({ action: 'loading streams' })
-    this.jsonp(`${this.rootUrl}?q=${query}`, (data) => {
+    this.jsonp(`${this.rootUrl}?limit=100&q=${query}`, (data) => {
       event.data = data
       this.trigger(event)
     })

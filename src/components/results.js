@@ -5,7 +5,7 @@ class ResultsComponent extends Component{
   constructor(rootSelector) {
     super(rootSelector)
 
-    this.resultsPerPage = 3
+    this.resultsPerPage = 10
 
     this.loading = this.el.querySelector('.loading')
     this.resultCount = this.el.querySelector('.result-count span')
@@ -80,15 +80,18 @@ class ResultsComponent extends Component{
 
     switch (direction) {
       case 'prev':
-        if (parseInt(currentPage) === 1) return
-        this.currentPage.innerText = --currentPage
+        if (parseInt(currentPage) === 1) currentPage = totalPages
+        else currentPage--
         break
       case 'next':
-        if (currentPage === totalPages) return
-        this.currentPage.innerText = ++currentPage
+        if (currentPage === totalPages) currentPage = 1
+        else currentPage++
         break
       default:
     }
+
+    // Update display
+    this.currentPage.innerText = currentPage
 
     // Render results list
     const fromIndex = --currentPage * this.resultsPerPage

@@ -1354,7 +1354,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResultsComponent).call(this, rootSelector));
 
-          _this.resultsPerPage = 3;
+          _this.resultsPerPage = 10;
 
           _this.loading = _this.el.querySelector('.loading');
           _this.resultCount = _this.el.querySelector('.result-count span');
@@ -1433,15 +1433,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             switch (direction) {
               case 'prev':
-                if (parseInt(currentPage) === 1) return;
-                this.currentPage.innerText = --currentPage;
+                if (parseInt(currentPage) === 1) currentPage = totalPages;else currentPage--;
                 break;
               case 'next':
-                if (currentPage === totalPages) return;
-                this.currentPage.innerText = ++currentPage;
+                if (currentPage === totalPages) currentPage = 1;else currentPage++;
                 break;
               default:
             }
+
+            // Update display
+            this.currentPage.innerText = currentPage;
 
             // Render results list
             var fromIndex = --currentPage * this.resultsPerPage;
@@ -1511,7 +1512,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       };
 
       module.exports = window.App = new App();
-    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_28948b6c.js", "/");
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_7fc3f510.js", "/");
   }, { "./components/results": 5, "./components/search": 6, "1YiZ5S": 4, "buffer": 1 }], 8: [function (require, module, exports) {
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
       var Component = function () {
@@ -2199,7 +2200,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             // Fetch our data via JSONP from Twitch API
             this.trigger({ action: 'loading streams' });
-            this.jsonp(this.rootUrl + "?q=" + query, function (data) {
+            this.jsonp(this.rootUrl + "?limit=100&q=" + query, function (data) {
               event.data = data;
               _this5.trigger(event);
             });
