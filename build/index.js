@@ -1354,7 +1354,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResultsComponent).call(this, rootSelector));
 
-          _this.resultsPerPage = 5;
+          _this.resultsPerPage = 3;
 
           _this.loading = _this.el.querySelector('.loading');
           _this.resultCount = _this.el.querySelector('.result-count span');
@@ -1388,7 +1388,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 break;
               case 'get streams from query':
                 var streams = event.data ? event.data.streams : [];
-                this.el.hidden = streams.length === 0;
+                this.results = streams;
+                this.el.hidden = false;
                 this.loading.hidden = true;
 
                 // Update pagination
@@ -1402,20 +1403,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 this.nextPageNav.hidden = onlyOnePage;
 
                 // Render results list
-                this.renderList(streams);
+                var pageOneResults = streams.slice(0, this.resultsPerPage);
+                this.renderList(pageOneResults);
                 break;
             }
           }
         }, {
           key: "renderList",
           value: function renderList() {
-            var streams = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+            var results = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
             var html = '<li>No results found.</li>';
-            if (streams.length > 0) {
+            if (results.length > 0) {
               html = '';
-              streams.forEach(function (stream) {
-                html += "\n          <li>\n            <img src=\"" + stream.preview.medium + "\" />\n            <h1>" + stream.channel.display_name + "</h1>\n            <h2>" + stream.game + " - " + stream.channel.views + " viewers</h2>\n            <p>" + stream.channel.status + "</p>\n          </li>\n        ";
+              results.forEach(function (result) {
+                var background = "url(" + result.preview.medium + ") center center / cover no-repeat";
+                html += "\n          <li>\n            <div class=\"image\" style=\"background: " + background + "\"></div>\n            <div class=\"info\">\n              <h1>" + result.channel.display_name + "</h1>\n              <h2>" + result.game + " - " + result.channel.views + " viewers</h2>\n              <p>" + result.channel.status + "</p>\n            </div>\n          </li>\n        ";
               });
             }
             this.resultList.innerHTML = html;
@@ -1426,15 +1429,25 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var direction = arguments.length <= 0 || arguments[0] === undefined ? 'next' : arguments[0];
 
             var currentPage = this.currentPage.innerText;
-            console.log(direction, currentPage);
+            var totalPages = this.totalPages.innerText;
 
             switch (direction) {
               case 'prev':
+                if (parseInt(currentPage) === 1) return;
+                this.currentPage.innerText = --currentPage;
                 break;
               case 'next':
+                if (currentPage === totalPages) return;
+                this.currentPage.innerText = ++currentPage;
                 break;
               default:
             }
+
+            // Render results list
+            var fromIndex = --currentPage * this.resultsPerPage;
+            var toIndex = fromIndex + this.resultsPerPage;
+            var pageResults = this.results.slice(fromIndex, toIndex);
+            this.renderList(pageResults);
           }
         }]);
 
@@ -1498,7 +1511,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       };
 
       module.exports = window.App = new App();
-    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_f3b070f8.js", "/");
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_28948b6c.js", "/");
   }, { "./components/results": 5, "./components/search": 6, "1YiZ5S": 4, "buffer": 1 }], 8: [function (require, module, exports) {
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
       var Component = function () {
@@ -1581,17 +1594,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             ref.parentNode.insertBefore(script, ref);
 
             // After the script is loaded (and executed), remove it
-            var load = function load() {
+            script.onload = function () {
               script.remove();
               isLoaded = true;
             };
-            script.onload = load;
 
-            // Throw error if request times out
+            // If request times out...
             setTimeout(function () {
               if (!isLoaded) {
                 console.warn('Request timed out.', url);
-                load();
+                script.remove();
                 next();
               }
             }, timeoutLimit);

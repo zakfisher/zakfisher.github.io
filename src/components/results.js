@@ -5,7 +5,7 @@ class ResultsComponent extends Component{
   constructor(rootSelector) {
     super(rootSelector)
 
-    this.resultsPerPage = 5
+    this.resultsPerPage = 3
 
     this.loading = this.el.querySelector('.loading')
     this.resultCount = this.el.querySelector('.result-count span')
@@ -32,7 +32,8 @@ class ResultsComponent extends Component{
         break
       case 'get streams from query':
         const streams = event.data ? event.data.streams : []
-        this.el.hidden = streams.length === 0
+        this.results = streams
+        this.el.hidden = false
         this.loading.hidden = true
 
         // Update pagination
@@ -46,22 +47,26 @@ class ResultsComponent extends Component{
         this.nextPageNav.hidden = onlyOnePage
 
         // Render results list
-        this.renderList(streams)
+        const pageOneResults = streams.slice(0, this.resultsPerPage)
+        this.renderList(pageOneResults)
         break
     }
   }
 
-  renderList(streams = []) {
+  renderList(results = []) {
     let html = '<li>No results found.</li>'
-    if (streams.length > 0) {
+    if (results.length > 0) {
       html = ''
-      streams.forEach((stream) => {
+      results.forEach((result) => {
+        const background = `url(${result.preview.medium}) center center / cover no-repeat`
         html += `
           <li>
-            <img src="${stream.preview.medium}" />
-            <h1>${stream.channel.display_name}</h1>
-            <h2>${stream.game} - ${stream.channel.views} viewers</h2>
-            <p>${stream.channel.status}</p>
+            <div class="image" style="background: ${background}"></div>
+            <div class="info">
+              <h1>${result.channel.display_name}</h1>
+              <h2>${result.game} - ${result.channel.views} viewers</h2>
+              <p>${result.channel.status}</p>
+            </div>
           </li>
         `
       })
@@ -70,16 +75,26 @@ class ResultsComponent extends Component{
   }
 
   goToPage(direction = 'next') {
-    const currentPage = this.currentPage.innerText
-    console.log(direction, currentPage)
+    var currentPage = this.currentPage.innerText
+    const totalPages = this.totalPages.innerText
 
     switch (direction) {
       case 'prev':
+        if (parseInt(currentPage) === 1) return
+        this.currentPage.innerText = --currentPage
         break
       case 'next':
+        if (currentPage === totalPages) return
+        this.currentPage.innerText = ++currentPage
         break
       default:
     }
+
+    // Render results list
+    const fromIndex = --currentPage * this.resultsPerPage
+    const toIndex = fromIndex + this.resultsPerPage
+    const pageResults = this.results.slice(fromIndex, toIndex)
+    this.renderList(pageResults)
   }
 }
 

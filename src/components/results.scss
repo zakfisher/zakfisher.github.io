@@ -16,6 +16,10 @@
     margin-bottom: rem(20);
   }
 
+  .result-count span {
+    margin-left: rem(5);
+  }
+
   .pagination {
     flex-direction: row-reverse;
 
@@ -45,12 +49,52 @@
     }
   }
 
+  $imageSize: rem(150);
   ul.result-list {
     border-top: 1px solid #ccc;
     margin-bottom: rem(20);
 
     li {
       border-bottom: 1px solid #ccc;
+      position: relative;
+      padding: rem(10) 0;
+
+      &:last-child {
+        border: none;
+      }
+
+      .image {
+        border: 1px solid #ccc;
+        height: $imageSize;
+        width: $imageSize;
+      }
+
+      .info {
+        position: absolute;
+        left: 0;
+        top: rem(10);
+        padding-left: rem(165);
+
+        h1 {
+          font-size: rem(24);
+          line-height: rem(30);
+        }
+
+        h2 {
+          color: #aaa;
+          font-family: Times, serif;
+          font-size: rem(18);
+          font-style: italic;
+          font-weight: normal;
+          line-height: rem(24);
+          margin-bottom: rem(5);
+        }
+
+        p {
+          font-size: rem(14);
+          line-height: rem(16);
+        }
+      }
     }
   }
 }

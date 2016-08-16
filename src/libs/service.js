@@ -45,17 +45,16 @@ class Service {
     ref.parentNode.insertBefore(script, ref)
 
     // After the script is loaded (and executed), remove it
-    const load = () => {
+    script.onload = () => {
       script.remove()
       isLoaded = true
     }
-    script.onload = load
 
-    // Throw error if request times out
+    // If request times out...
     setTimeout(() => {
       if (!isLoaded) {
         console.warn('Request timed out.', url)
-        load()
+        script.remove()
         next()
       }
     }, timeoutLimit)
