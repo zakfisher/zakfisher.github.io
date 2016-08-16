@@ -1,0 +1,56 @@
+@import 'mixins';
+
+.results {
+  &[hidden] :not(.loading) { display: none; }
+
+  .loading {
+    margin: 0 auto;
+  }
+
+  .result-count, .pagination {
+    font-size: rem(14);
+    line-height: rem(14);
+    height: rem(14);
+    display: flex;
+    align-items: center;
+    margin-bottom: rem(20);
+  }
+
+  .pagination {
+    flex-direction: row-reverse;
+
+    .display {
+      margin: 0 rem(10);
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      border: rem(10) solid transparent;
+    }
+
+    .prev {
+      border-right: rem(10) solid #ccc;
+      &:hover {
+        border-right: rem(10) solid #999;
+      }
+    }
+
+    .next {
+      border-left: rem(10) solid #ccc;
+      &:hover {
+        border-left: rem(10) solid #999;
+      }
+    }
+  }
+
+  ul.result-list {
+    border-top: 1px solid #ccc;
+    margin-bottom: rem(20);
+
+    li {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}

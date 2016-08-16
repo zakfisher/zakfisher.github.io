@@ -8,12 +8,25 @@
   <main class="wrap">
 
     <!-- Search Form -->
-    <form action="/" method="POST" class="search"></form>
+    <form action="/" method="POST" class="search">
+      <input type="text" name="query" placeholder="Search query..." />
+      <input type="submit" name="submit" value="Search" />
+    </form>
 
     <!-- Search Results -->
-    <div class="results">
-      <div class="pagination"></div>
-      <ul class="result-list"></ul>
+    <div class="results row" hidden>
+      <img class="loading" src="/images/loading.gif" hidden />
+      <p class="result-count col-7">Total results: <span>0</span></p>
+      <div class="pagination col-5">
+        <div class="next"></div>
+        <div class="display">
+          <span class="current">1</span>
+          <span>/</span>
+          <span class="total">1</span>
+        </div>
+        <div class="prev"></div>
+      </div>
+      <ul class="result-list col-12"></ul>
     </div>
 
   </main>

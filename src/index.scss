@@ -1,1 +1,16 @@
-@import 'grid';
+@import 'components/fonts';
+@import 'components/grid';
+@import 'components/results';
+@import 'components/search';
+
+* {
+  box-sizing: border-box;
+  border: none;
+  list-style-type: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  color: #333;
+}

@@ -1,26 +1,24 @@
 const TwitchService = require('../services/twitch')
+const Component = require('../libs/component')
 
-class SearchComponent {
+class SearchComponent extends Component{
   constructor(rootSelector) {
-    this.el = document.querySelector(rootSelector)
+    super(rootSelector)
+
+    this.query = this.el.querySelector('input[name="query"]')
 
     // Hook into Twitch Service for data updates
     TwitchService.listen(this.update.bind(this))
+
+    // Add submit handler to form
+    this.el.addEventListener('submit', this.submit)
   }
 
-  update(event) {
-    switch (event.action) {
-
-    }
+  submit(e) {
+    e.preventDefault()
+    TwitchService.getStreamsFromQuery(this.query.value.trim())
+    this.query.blur()
   }
-
-  render() {
-    this.el.innerHTML = `
-      <input type="text" name="query" placeholder="Search query..." />
-      <input type="submit" name="submit" value="Search" />
-    `
-  }
-
 }
 
 module.exports = SearchComponent

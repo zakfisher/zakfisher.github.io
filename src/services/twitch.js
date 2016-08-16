@@ -1,47 +1,40 @@
-const data = require('./mockData')
+const Service = require('../libs/service')
 
-class TwitchService {
+class TwitchService extends Service {
   constructor() {
-    this.data = {}
-    this.listeners = []
-    this.actions = [
-      'getData'
-    ]
-    this._initActionCallbacks()
+    super([
+      'getStreamsFromQuery',
+    ])
+
+    // this.useMockData = true
+    this.rootUrl = 'https://api.twitch.tv/kraken/search/streams'
   }
 
-  _initActionCallbacks() {
-    // Hook each action to an on<ActionName> callback
-    // i.e. `getData` will fire `onGetData`
-    this.actions.forEach((action) => {
-      this[action] = () => {
-        const onAction = `on${action[0].toUpperCase()}${action.substr(1)}`
-        if (this[onAction]) {
-          this[onAction]()
-        }
-      }
-    })
-  }
-
-  onGetData() {
-    this.trigger({
-      action: 'get data',
-      data: data
-    })
-  }
-
-  listen(listener) {
-    if (typeof listener === 'function') {
-      this.listeners.push(listener)
+  onGetStreamsFromQuery(query = '') {
+    var event = {
+      action: 'get streams from query',
+      data: null,
+      query: query
     }
-  }
 
-  trigger(data) {
-    this.listeners.forEach((listener) => {
-      listener(data)
+    // Escape if no query
+    if (query.length === 0) {
+      return this.trigger(event)
+    }
+
+    // Use mock data (for testing)
+    if (this.useMockData) {
+      event.data = require('./mockData')
+      return this.trigger(event)
+    }
+
+    // Fetch our data via JSONP from Twitch API
+    this.trigger({ action: 'loading streams' })
+    this.jsonp(`${this.rootUrl}?q=${query}`, (data) => {
+      event.data = data
+      this.trigger(event)
     })
   }
-
 }
 
 module.exports = new TwitchService()

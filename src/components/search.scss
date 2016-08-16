@@ -1,0 +1,47 @@
+@import 'mixins';
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(20) 0;
+  flex-wrap: wrap;
+  @include breakpoint(tab) {
+    flex-wrap: nowrap;
+  }
+
+  input {
+    height: rem(50);
+  }
+
+  input[type="text"] {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 0 rem(15);
+    font-size: rem(16);
+    line-height: rem(16);
+    width: 100%;
+    @include breakpoint(tab) {
+      width: 80%;
+    }
+  }
+
+  input[type="submit"] {
+    background: #ccc;
+    cursor: pointer;
+    transition: background 300ms ease;
+    text-transform: uppercase;
+    font-size: rem(12);
+    line-height: rem(12);
+    width: 100%;
+    margin-top: rem(20);
+    @include breakpoint(tab) {
+      margin-left: rem(20);
+      margin-top: 0;
+      width: 20%;
+    }
+    &:hover {
+      background: #999;
+    }
+  }
+}

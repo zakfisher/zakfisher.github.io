@@ -14,7 +14,7 @@ module.exports = {
     "created_at": "2016-08-12T16:55:25Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_skryoo1004-{width}x{height}.jpg"
@@ -67,7 +67,7 @@ module.exports = {
     "created_at": "2016-08-12T16:33:40Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_leipzigesports-{width}x{height}.jpg"
@@ -120,7 +120,7 @@ module.exports = {
     "created_at": "2016-08-12T19:49:20Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_lscander-{width}x{height}.jpg"
@@ -173,7 +173,7 @@ module.exports = {
     "created_at": "2016-08-12T18:07:44Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_misterlard-{width}x{height}.jpg"
@@ -226,7 +226,7 @@ module.exports = {
     "created_at": "2016-08-12T19:43:56Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_certicky-{width}x{height}.jpg"
@@ -279,7 +279,7 @@ module.exports = {
     "created_at": "2016-08-12T19:51:12Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_sdsg_stratos-{width}x{height}.jpg"
@@ -332,7 +332,7 @@ module.exports = {
     "created_at": "2016-08-12T18:09:32Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_355th300-{width}x{height}.jpg"
@@ -385,7 +385,7 @@ module.exports = {
     "created_at": "2016-08-12T19:53:18Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_wolfslairsc2-{width}x{height}.jpg"
@@ -438,7 +438,7 @@ module.exports = {
     "created_at": "2016-08-12T19:08:00Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_mrmanslol-{width}x{height}.jpg"
@@ -491,7 +491,7 @@ module.exports = {
     "created_at": "2016-08-12T19:01:54Z",
     "is_playlist": false,
     "preview": {
-      "small": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-80x45.jpg",
+      "small": "/images/slack.jpg",
       "medium": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-320x180.jpg",
       "large": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-640x360.jpg",
       "template": "https://static-cdn.jtvnw.net/previews-ttv/live_user_adimax1993-{width}x{height}.jpg"

@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Avenir Book';
+  src: url('/fonts/AvenirBook/Avenir-Book.eot');
+  src: url('/fonts/AvenirBook/Avenir-Book.woff') format('woff'),
+       url('/fonts/AvenirBook/Avenir-Book.svg#webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* { font-family: 'Avenir Book', sans-serif; }
