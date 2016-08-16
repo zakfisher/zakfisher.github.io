@@ -277,9 +277,14 @@
   border-top: 1px solid #ccc;
   margin-bottom: 1.25rem; }
   .results ul.result-list li {
+    background: transparent;
+    cursor: pointer;
     border-bottom: 1px solid #ccc;
     position: relative;
-    padding: 0.625rem 0; }
+    padding: 0.625rem 0;
+    transition: background 300ms ease; }
+    .results ul.result-list li:hover {
+      background: #eee; }
     .results ul.result-list li:last-child {
       border: none; }
     .results ul.result-list li .image {

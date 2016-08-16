@@ -1418,7 +1418,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               html = '';
               results.forEach(function (result) {
                 var background = "url(" + result.preview.medium + ") center center / cover no-repeat";
-                html += "\n          <li>\n            <div class=\"image\" style=\"background: " + background + "\"></div>\n            <div class=\"info\">\n              <h1>" + result.channel.display_name + "</h1>\n              <h2>" + result.game + " - " + result.channel.views + " viewers</h2>\n              <p>" + result.channel.status + "</p>\n            </div>\n          </li>\n        ";
+                html += "\n          <li onClick=\"window.open('" + result.channel.url + "', '_blank')\">\n            <div class=\"image\" style=\"background: " + background + "\"></div>\n            <div class=\"info\">\n              <h1>" + result.channel.display_name + "</h1>\n              <h2>" + result.game + " - " + result.channel.views + " viewers</h2>\n              <p>" + result.channel.status + "</p>\n            </div>\n          </li>\n        ";
               });
             }
             this.resultList.innerHTML = html;
@@ -1498,21 +1498,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
       var ResultsComponent = require('./components/results');
       var SearchComponent = require('./components/search');
-      // const TwitchService = require('./services/twitch')
 
       var App = function App() {
         _classCallCheck(this, App);
 
         this.results = new ResultsComponent('main .results');
         this.search = new SearchComponent('main .search');
-
-        // Load initial data (will render results on callback)
-        // TwitchService.getStreamsFromQuery('starcraft')
-        // TwitchService.getStreamsFromQuery()
       };
 
       module.exports = window.App = new App();
-    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_7fc3f510.js", "/");
+    }).call(this, require("1YiZ5S"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_c6707483.js", "/");
   }, { "./components/results": 5, "./components/search": 6, "1YiZ5S": 4, "buffer": 1 }], 8: [function (require, module, exports) {
     (function (process, global, Buffer, __argument0, __argument1, __argument2, __argument3, __filename, __dirname) {
       var Component = function () {
@@ -2170,6 +2165,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           // this.useMockData = true
           var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(TwitchService).call(this, ['getStreamsFromQuery']));
 
+          _this4.limit = 100;
           _this4.rootUrl = 'https://api.twitch.tv/kraken/search/streams';
           return _this4;
         }
@@ -2200,7 +2196,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             // Fetch our data via JSONP from Twitch API
             this.trigger({ action: 'loading streams' });
-            this.jsonp(this.rootUrl + "?limit=100&q=" + query, function (data) {
+            this.jsonp(this.rootUrl + "?limit=" + this.limit + "&q=" + query, function (data) {
               event.data = data;
               _this5.trigger(event);
             });

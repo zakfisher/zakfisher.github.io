@@ -7,6 +7,7 @@ class TwitchService extends Service {
     ])
 
     // this.useMockData = true
+    this.limit = 100
     this.rootUrl = 'https://api.twitch.tv/kraken/search/streams'
   }
 
@@ -30,7 +31,7 @@ class TwitchService extends Service {
 
     // Fetch our data via JSONP from Twitch API
     this.trigger({ action: 'loading streams' })
-    this.jsonp(`${this.rootUrl}?limit=100&q=${query}`, (data) => {
+    this.jsonp(`${this.rootUrl}?limit=${this.limit}&q=${query}`, (data) => {
       event.data = data
       this.trigger(event)
     })

@@ -60,7 +60,7 @@ class ResultsComponent extends Component{
       results.forEach((result) => {
         const background = `url(${result.preview.medium}) center center / cover no-repeat`
         html += `
-          <li>
+          <li onClick="window.open('${result.channel.url}', '_blank')">
             <div class="image" style="background: ${background}"></div>
             <div class="info">
               <h1>${result.channel.display_name}</h1>
